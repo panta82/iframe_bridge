@@ -38,7 +38,9 @@ Example usage:
 <script>
 	var iFrame = document.getElementById('iframe');
 
-	// Create an instance of bridge. By giving it iFrame's window as targetWindow, you indicate this instance will work in "server mode", and attempt to initiate connection. 
+	// Create an instance of bridge. By giving it iFrame's window as targetWindow,
+	// you indicate this instance will work in "server mode",
+	// and attempt to initiate connection. 
 	var bridge = new IFrameBridge({
 		targetWindow: iFrame.contentWindow
 	});
