@@ -1,0 +1,19 @@
+{
+  "name": "iframe_bridge",
+  "version": "1.0.0",
+  "description": "Very basic wrapper around window.postMessage",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/panta82/iframe_bridge.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/panta82/iframe_bridge/issues"
+  },
+  "homepage": "https://github.com/panta82/iframe_bridge#readme"
+}
