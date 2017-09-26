@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport"
+			content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Document</title>
+</head>
+<body>
+<iframe id="iframe" src="iframe.html">
+</iframe>
+
+<div id="messages"></div>
+
+<script src="../dist/iframe_bridge.js"></script>
+
+<script>
+	var iFrame = document.getElementById('iframe');
+	var messages = document.getElementById('messages');
+
+	var bridge = new IFrameBridge({
+		targetWindow: iFrame.contentWindow
+	});
+
+	var count = 0;
+	setInterval(() => {
+		count++;
+		bridge.postMessage('ping', count);
+	}, 1000);
+
+	bridge.on('pong', function (num) {
+		var el = document.createElement('p');
+		el.innerText = 'Pong ' + num;
+		messages.appendChild(el);
+	});
+
+	bridge.init();
+</script>
+</body>
+</html>

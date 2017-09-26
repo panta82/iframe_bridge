@@ -1,10 +1,11 @@
 {
   "name": "iframe_bridge",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "Very basic wrapper around window.postMessage",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha --recursive ./spec",
+    "build": "browserify index.js > dist/iframe_bridge.js"
   },
   "repository": {
     "type": "git",
@@ -15,5 +16,15 @@
   "bugs": {
     "url": "https://github.com/panta82/iframe_bridge/issues"
   },
-  "homepage": "https://github.com/panta82/iframe_bridge#readme"
+  "homepage": "https://github.com/panta82/iframe_bridge#readme",
+  "dependencies": {
+    "eventemitter3": "^2.0.3",
+    "inherits": "^2.0.3"
+  },
+  "devDependencies": {
+    "browserify": "^14.4.0",
+    "chai": "^4.1.2",
+    "chai-spies": "^0.7.1",
+    "mocha": "^3.5.3"
+  }
 }
