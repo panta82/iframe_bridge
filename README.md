@@ -22,9 +22,7 @@ import IFrameBridge from 'iframe_bridge';
 
 ### Usage
 
-This is best used from within something that has a build system (eg. react + webpack). You'll get a dev version, so you can dig into source code, if there are issues. And your own build system will take care of minification and such.
-
-If you want just the compiled version, see `dist/iframe_bridge.js`.
+`iframe_bridge.js` file is the compiled browser-ready version of the library. If you reference it with `<script>` tag, the constructor will become available globally as `window.BrowserBridge`. You can also require it from within an ES6 app with your own build system (see above).
 
 Example usage:
 

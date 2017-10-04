@@ -1,11 +1,11 @@
 {
   "name": "iframe_bridge",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "Very basic wrapper around window.postMessage",
-  "main": "index.js",
+  "main": "dist/iframe_bridge.js",
   "scripts": {
     "test": "mocha --recursive ./spec",
-    "build": "browserify index.js > dist/iframe_bridge.js"
+    "build": "webpack"
   },
   "repository": {
     "type": "git",
@@ -22,9 +22,12 @@
     "inherits": "^2.0.3"
   },
   "devDependencies": {
-    "browserify": "^14.4.0",
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.2",
+    "babel-preset-env": "^1.6.0",
     "chai": "^4.1.2",
     "chai-spies": "^0.7.1",
-    "mocha": "^3.5.3"
+    "mocha": "^3.5.3",
+    "webpack": "^3.6.0"
   }
 }

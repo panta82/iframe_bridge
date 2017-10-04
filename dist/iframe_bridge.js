@@ -1,6 +1,195 @@
-(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
-const IFrameBridge = require('./lib/IFrameBridge');
-const BridgePayload = require('./lib/BridgePayload');
+/******/ (function(modules) { // webpackBootstrap
+/******/ 	// The module cache
+/******/ 	var installedModules = {};
+/******/
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/
+/******/ 		// Check if module is in cache
+/******/ 		if(installedModules[moduleId]) {
+/******/ 			return installedModules[moduleId].exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = installedModules[moduleId] = {
+/******/ 			i: moduleId,
+/******/ 			l: false,
+/******/ 			exports: {}
+/******/ 		};
+/******/
+/******/ 		// Execute the module function
+/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+/******/
+/******/ 		// Flag the module as loaded
+/******/ 		module.l = true;
+/******/
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/
+/******/
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__webpack_require__.m = modules;
+/******/
+/******/ 	// expose the module cache
+/******/ 	__webpack_require__.c = installedModules;
+/******/
+/******/ 	// define getter function for harmony exports
+/******/ 	__webpack_require__.d = function(exports, name, getter) {
+/******/ 		if(!__webpack_require__.o(exports, name)) {
+/******/ 			Object.defineProperty(exports, name, {
+/******/ 				configurable: false,
+/******/ 				enumerable: true,
+/******/ 				get: getter
+/******/ 			});
+/******/ 		}
+/******/ 	};
+/******/
+/******/ 	// getDefaultExport function for compatibility with non-harmony modules
+/******/ 	__webpack_require__.n = function(module) {
+/******/ 		var getter = module && module.__esModule ?
+/******/ 			function getDefault() { return module['default']; } :
+/******/ 			function getModuleExports() { return module; };
+/******/ 		__webpack_require__.d(getter, 'a', getter);
+/******/ 		return getter;
+/******/ 	};
+/******/
+/******/ 	// Object.prototype.hasOwnProperty.call
+/******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
+/******/
+/******/ 	// __webpack_public_path__
+/******/ 	__webpack_require__.p = "";
+/******/
+/******/ 	// Load entry module and return exports
+/******/ 	return __webpack_require__(__webpack_require__.s = 3);
+/******/ })
+/************************************************************************/
+/******/ ([
+/* 0 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+var _require = __webpack_require__(1),
+    ReservedPayloadNameError = _require.ReservedPayloadNameError;
+
+var CONSTS = __webpack_require__(2);
+
+function BridgePayload(source) {
+	this.__bridge_payload__ = true;
+	this.timestamp = new Date();
+
+	if (!source) {
+		return;
+	}
+
+	this.name = source.name;
+	this.data = source.data;
+}
+
+BridgePayload.createAndValidate = function (name, data) {
+	var payload = void 0;
+	if ((typeof name === 'undefined' ? 'undefined' : _typeof(name)) === 'object') {
+		payload = new BridgePayload(name);
+	} else {
+		payload = new BridgePayload();
+		payload.name = name;
+		payload.data = data;
+	}
+
+	if (payload.name === CONSTS.MESSAGE_EVENT_NAME || payload.name === CONSTS.HANDSHAKE_MESSAGE_NAME) {
+		throw new ReservedPayloadNameError(payload.name);
+	}
+
+	return payload;
+};
+
+BridgePayload.createHandshake = function () {
+	var payload = new BridgePayload();
+	payload.name = CONSTS.HANDSHAKE_MESSAGE_NAME;
+	return payload;
+};
+
+module.exports = BridgePayload;
+
+/***/ }),
+/* 1 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var IFrameBridgeError = function (_Error) {
+	_inherits(IFrameBridgeError, _Error);
+
+	function IFrameBridgeError() {
+		_classCallCheck(this, IFrameBridgeError);
+
+		return _possibleConstructorReturn(this, (IFrameBridgeError.__proto__ || Object.getPrototypeOf(IFrameBridgeError)).apply(this, arguments));
+	}
+
+	return IFrameBridgeError;
+}(Error);
+
+var HandshakeTimeoutError = function (_IFrameBridgeError) {
+	_inherits(HandshakeTimeoutError, _IFrameBridgeError);
+
+	function HandshakeTimeoutError(timeout) {
+		_classCallCheck(this, HandshakeTimeoutError);
+
+		return _possibleConstructorReturn(this, (HandshakeTimeoutError.__proto__ || Object.getPrototypeOf(HandshakeTimeoutError)).call(this, "Handshake has timed out after " + timeout + "ms. There was no message received from the other side"));
+	}
+
+	return HandshakeTimeoutError;
+}(IFrameBridgeError);
+
+var ReservedPayloadNameError = function (_IFrameBridgeError2) {
+	_inherits(ReservedPayloadNameError, _IFrameBridgeError2);
+
+	function ReservedPayloadNameError(name) {
+		_classCallCheck(this, ReservedPayloadNameError);
+
+		return _possibleConstructorReturn(this, (ReservedPayloadNameError.__proto__ || Object.getPrototypeOf(ReservedPayloadNameError)).call(this, "Message name \"" + name + "\" is reserved for internal use"));
+	}
+
+	return ReservedPayloadNameError;
+}(IFrameBridgeError);
+
+module.exports = {
+	IFrameBridgeError: IFrameBridgeError,
+	HandshakeTimeoutError: HandshakeTimeoutError,
+	ReservedPayloadNameError: ReservedPayloadNameError
+};
+
+/***/ }),
+/* 2 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+module.exports = {
+	HANDSHAKE_MESSAGE_NAME: '___handshake___',
+	MESSAGE_EVENT_NAME: 'message'
+};
+
+/***/ }),
+/* 3 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var IFrameBridge = __webpack_require__(4);
+var BridgePayload = __webpack_require__(0);
 
 IFrameBridge.Payload = BridgePayload;
 IFrameBridge.IFrameBridge = IFrameBridge;
@@ -10,81 +199,53 @@ module.exports = IFrameBridge;
 if (typeof window !== 'undefined' && !window.IFrameBridge) {
 	window.IFrameBridge = IFrameBridge;
 }
-},{"./lib/BridgePayload":2,"./lib/IFrameBridge":3}],2:[function(require,module,exports){
-const {ReservedPayloadNameError} = require('./errors');
-const CONSTS = require('./consts');
 
-function BridgePayload(source) {
-	this.__bridge_payload__ = true;
-	this.timestamp = new Date();
-	
-	if (!source) {
-		return;
-	}
-	
-	this.name = source.name;
-	this.data = source.data;
-}
+/***/ }),
+/* 4 */
+/***/ (function(module, exports, __webpack_require__) {
 
-BridgePayload.createAndValidate = function (name, data) {
-	let payload;
-	if (typeof name === 'object') {
-		payload = new BridgePayload(name);
-	} else {
-		payload = new BridgePayload();
-		payload.name = name;
-		payload.data = data;
-	}
-	
-	if (payload.name === CONSTS.MESSAGE_EVENT_NAME || payload.name === CONSTS.HANDSHAKE_MESSAGE_NAME) {
-		throw new ReservedPayloadNameError(payload.name);
-	}
-	
-	return payload;
-};
+"use strict";
 
-BridgePayload.createHandshake = function () {
-	const payload = new BridgePayload();
-	payload.name = CONSTS.HANDSHAKE_MESSAGE_NAME;
-	return payload;
-};
 
-module.exports = BridgePayload;
-},{"./consts":4,"./errors":5}],3:[function(require,module,exports){
-const EventEmitter = require('eventemitter3');
-const inherits = require('inherits');
+var EventEmitter = __webpack_require__(5);
+var inherits = __webpack_require__(6);
 
-const BridgePayload = require('./BridgePayload');
-const CONSTS = require('./consts');
-const {enqueue, flushQueue} = require('./util');
-const {HandshakeTimeoutError} = require('./errors');
+var BridgePayload = __webpack_require__(0);
+var CONSTS = __webpack_require__(2);
 
-const DEFAULT_OPTIONS = {
+var _require = __webpack_require__(7),
+    enqueue = _require.enqueue,
+    flushQueue = _require.flushQueue;
+
+var _require2 = __webpack_require__(1),
+    HandshakeTimeoutError = _require2.HandshakeTimeoutError;
+
+var DEFAULT_OPTIONS = {
 	/**
-	 * The window to communicate with (inside an iFrame). If given, the bridge will work in server mode and initiate
-	 * the connection. Otherwise, it will listen for incoming handshake and assign source of that message as targetWindow.
-	 */
+  * The window to communicate with (inside an iFrame). If given, the bridge will work in server mode and initiate
+  * the connection. Otherwise, it will listen for incoming handshake and assign source of that message as targetWindow.
+  */
 	targetWindow: null,
-	
+
 	/**
-	 * Origin to use when connecting to other window (only in server mode)
-	 */
+  * Origin to use when connecting to other window (only in server mode)
+  */
 	origin: '*',
-	
+
 	/**
-	 * How often do we attempt to reach the iFrame (only in server mode)
-	 */
+  * How often do we attempt to reach the iFrame (only in server mode)
+  */
 	handshake_interval: 200,
-	
+
 	/**
-	 * How long do we attempt to reach the other iFrame before we error out
-	 */
+  * How long do we attempt to reach the other iFrame before we error out
+  */
 	handshake_timeout: 5000,
-	
+
 	/**
-	 * Max number of messages to queue
-	 */
-	queue_limit: 100,
+  * Max number of messages to queue
+  */
+	queue_limit: 100
 };
 
 /**
@@ -93,118 +254,119 @@ const DEFAULT_OPTIONS = {
  * @param options Overrides for IFrameBridge.DEFAULT_OPTIONS
  * @extends EventEmitter
  */
-function IFrameBridge(options = DEFAULT_OPTIONS) {
+function IFrameBridge() {
+	var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : DEFAULT_OPTIONS;
+
 	options = Object.assign({}, IFrameBridge.DEFAULT_OPTIONS, options);
-	
-	const _serverMode = !!options.targetWindow;
-	let _targetWindow = options.targetWindow;
-	const _listenWindow = options.listenWindow || window;
-	let _initPromise = null;
-	let _handshakeResponseHandler = null;
-	let _connected = false;
-	const _handshakeQueue = [];
-	const _eventEmitter = new EventEmitter();
-	
+
+	var _serverMode = !!options.targetWindow;
+	var _targetWindow = options.targetWindow;
+	var _listenWindow = options.listenWindow || window;
+	var _initPromise = null;
+	var _handshakeResponseHandler2 = null;
+	var _connected = false;
+	var _handshakeQueue = [];
+	var _eventEmitter = new EventEmitter();
+
 	_listenWindow.addEventListener('message', receiveMessage, false);
-	
-	Object.assign(this, /** @lends IFrameBridge.prototype */ {
-		init,
-		postMessage,
+
+	Object.assign(this, /** @lends IFrameBridge.prototype */{
+		init: init,
+		postMessage: postMessage,
 		on: _eventEmitter.on.bind(_eventEmitter),
 		addListener: _eventEmitter.addListener.bind(_eventEmitter),
 		once: _eventEmitter.once.bind(_eventEmitter),
 		off: _eventEmitter.off.bind(_eventEmitter),
 		removeListener: _eventEmitter.removeListener.bind(_eventEmitter),
-		removeAllListeners: _eventEmitter.removeAllListeners.bind(_eventEmitter),
+		removeAllListeners: _eventEmitter.removeAllListeners.bind(_eventEmitter)
 	});
-	
+
 	function init() {
 		if (_connected) {
 			return Promise.resolve();
 		}
-		
+
 		if (_initPromise) {
 			return _initPromise;
 		}
-		
-		_initPromise = new Promise((resolve, reject) => {
-			let handshakeInterval;
-			let handshakeTimeout;
-			
-			_handshakeResponseHandler = (messageEvent) => {
+
+		_initPromise = new Promise(function (resolve, reject) {
+			var handshakeInterval = void 0;
+			var handshakeTimeout = void 0;
+
+			_handshakeResponseHandler2 = function _handshakeResponseHandler(messageEvent) {
 				_connected = true;
 				_initPromise = null;
-				_handshakeResponseHandler = null;
+				_handshakeResponseHandler2 = null;
 				clearInterval(handshakeInterval);
 				clearTimeout(handshakeTimeout);
 				resolve();
-				
+
 				if (!_serverMode) {
 					_targetWindow = messageEvent.source;
 					doPostMessage(BridgePayload.createHandshake());
 				}
 				flushQueue(_handshakeQueue, doPostMessage);
 			};
-			
+
 			if (_serverMode) {
-				handshakeInterval = setInterval(sendHandshakeMessage, options.handshake_interval)
+				handshakeInterval = setInterval(sendHandshakeMessage, options.handshake_interval);
 				sendHandshakeMessage();
 			}
-			
+
 			if (options.handshake_timeout) {
-				handshakeTimeout = setTimeout(() => {
+				handshakeTimeout = setTimeout(function () {
 					clearInterval(handshakeInterval);
 					_initPromise = null;
-					_handshakeResponseHandler = null;
+					_handshakeResponseHandler2 = null;
 					reject(new HandshakeTimeoutError(options.handshake_timeout));
 				}, options.handshake_timeout);
 			}
-			
+
 			function sendHandshakeMessage() {
 				doPostMessage(BridgePayload.createHandshake());
 			}
 		});
 		return _initPromise;
 	}
-	
+
 	function postMessage(name, data) {
-		const payload = BridgePayload.createAndValidate(name, data);
-		
+		var payload = BridgePayload.createAndValidate(name, data);
+
 		if (!_connected) {
 			enqueue(_handshakeQueue, payload, options.queue_limit);
 			return;
 		}
-		
+
 		return doPostMessage(payload);
 	}
-	
+
 	function doPostMessage(payload) {
-		const data = JSON.stringify(payload);
-		
+		var data = JSON.stringify(payload);
+
 		_targetWindow.postMessage(data, options.origin);
 	}
-	
+
 	function receiveMessage(messageEvent) {
 		/** @type BridgePayload */
-		let payload;
+		var payload = void 0;
 		try {
 			payload = new BridgePayload(JSON.parse(messageEvent.data));
-		}
-		catch (_) {
+		} catch (_) {
 			return;
 		}
-		
+
 		if (!payload.__bridge_payload__) {
 			return;
 		}
-		
+
 		if (payload.name === CONSTS.HANDSHAKE_MESSAGE_NAME) {
-			if (_handshakeResponseHandler) {
-				_handshakeResponseHandler(messageEvent);
+			if (_handshakeResponseHandler2) {
+				_handshakeResponseHandler2(messageEvent);
 			}
 			return;
 		}
-		
+
 		if (payload.name) {
 			_eventEmitter.emit(payload.name, payload.data);
 		}
@@ -217,71 +379,13 @@ inherits(IFrameBridge, EventEmitter);
 IFrameBridge.DEFAULT_OPTIONS = DEFAULT_OPTIONS;
 
 module.exports = IFrameBridge;
-},{"./BridgePayload":2,"./consts":4,"./errors":5,"./util":6,"eventemitter3":7,"inherits":8}],4:[function(require,module,exports){
-module.exports = {
-	HANDSHAKE_MESSAGE_NAME: '___handshake___',
-	MESSAGE_EVENT_NAME: 'message'
-};
-},{}],5:[function(require,module,exports){
-class IFrameBridgeError extends Error {}
 
-class HandshakeTimeoutError extends IFrameBridgeError {
-	constructor(timeout) {
-		super(`Handshake has timed out after ${timeout}ms. There was no message received from the other side`);
-	}
-}
+/***/ }),
+/* 5 */
+/***/ (function(module, exports, __webpack_require__) {
 
-class ReservedPayloadNameError extends IFrameBridgeError {
-	constructor(name) {
-		super(`Message name "${name}" is reserved for internal use`);
-	}
-}
+"use strict";
 
-module.exports = {
-	IFrameBridgeError,
-	HandshakeTimeoutError,
-	ReservedPayloadNameError
-};
-},{}],6:[function(require,module,exports){
-/**
- * Enqueue item into the queue, observing limit (if provided)
- * @param {Array} queue
- * @param el
- * @param limit
- */
-function enqueue(queue, el, limit = null) {
-	queue.push(el);
-	if (limit && queue.length > limit) {
-		queue.splice(0, 1);
-	}
-}
-
-/**
- * Empty queue using consumer fn, one by one. If consumer returns false, item is re-enqueued.
- * @param {Array} queue
- * @param {Function} consumer
- */
-function flushQueue(queue, consumer) {
-	let queueLimit = 0;
-	while (queue.length > queueLimit) {
-		const msg = queue.splice(0, 1)[0];
-		if (msg) {
-			if (consumer(msg) === false) {
-				queue.push(msg);
-				queueLimit++;
-			}
-		}
-	}
-	
-	return queueLimit;
-}
-
-module.exports = {
-	enqueue,
-	flushQueue
-};
-},{}],7:[function(require,module,exports){
-'use strict';
 
 var has = Object.prototype.hasOwnProperty
   , prefix = '~';
@@ -589,11 +693,15 @@ EventEmitter.EventEmitter = EventEmitter;
 //
 // Expose the module.
 //
-if ('undefined' !== typeof module) {
+if (true) {
   module.exports = EventEmitter;
 }
 
-},{}],8:[function(require,module,exports){
+
+/***/ }),
+/* 6 */
+/***/ (function(module, exports) {
+
 if (typeof Object.create === 'function') {
   // implementation from standard node.js 'util' module
   module.exports = function inherits(ctor, superCtor) {
@@ -618,4 +726,54 @@ if (typeof Object.create === 'function') {
   }
 }
 
-},{}]},{},[1]);
+
+/***/ }),
+/* 7 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+/**
+ * Enqueue item into the queue, observing limit (if provided)
+ * @param {Array} queue
+ * @param el
+ * @param limit
+ */
+function enqueue(queue, el) {
+	var limit = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
+
+	queue.push(el);
+	if (limit && queue.length > limit) {
+		queue.splice(0, 1);
+	}
+}
+
+/**
+ * Empty queue using consumer fn, one by one. If consumer returns false, item is re-enqueued.
+ * @param {Array} queue
+ * @param {Function} consumer
+ */
+function flushQueue(queue, consumer) {
+	var queueLimit = 0;
+	while (queue.length > queueLimit) {
+		var msg = queue.splice(0, 1)[0];
+		if (msg) {
+			if (consumer(msg) === false) {
+				queue.push(msg);
+				queueLimit++;
+			}
+		}
+	}
+
+	return queueLimit;
+}
+
+module.exports = {
+	enqueue: enqueue,
+	flushQueue: flushQueue
+};
+
+/***/ })
+/******/ ]);
+//# sourceMappingURL=iframe_bridge.js.map
