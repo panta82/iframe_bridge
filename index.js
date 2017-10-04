@@ -5,7 +5,3 @@ IFrameBridge.Payload = BridgePayload;
 IFrameBridge.IFrameBridge = IFrameBridge;
 
 module.exports = IFrameBridge;
-
-if (typeof window !== 'undefined' && !window.IFrameBridge) {
-	window.IFrameBridge = IFrameBridge;
-}

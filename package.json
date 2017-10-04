@@ -1,6 +1,6 @@
 {
   "name": "iframe_bridge",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Very basic wrapper around window.postMessage",
   "main": "dist/iframe_bridge.js",
   "scripts": {

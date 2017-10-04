@@ -1,4 +1,14 @@
-/******/ (function(modules) { // webpackBootstrap
+(function webpackUniversalModuleDefinition(root, factory) {
+	if(typeof exports === 'object' && typeof module === 'object')
+		module.exports = factory();
+	else if(typeof define === 'function' && define.amd)
+		define([], factory);
+	else if(typeof exports === 'object')
+		exports["IFrameBridge"] = factory();
+	else
+		root["IFrameBridge"] = factory();
+})(this, function() {
+return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
 /******/
@@ -195,10 +205,6 @@ IFrameBridge.Payload = BridgePayload;
 IFrameBridge.IFrameBridge = IFrameBridge;
 
 module.exports = IFrameBridge;
-
-if (typeof window !== 'undefined' && !window.IFrameBridge) {
-	window.IFrameBridge = IFrameBridge;
-}
 
 /***/ }),
 /* 4 */
@@ -776,4 +782,5 @@ module.exports = {
 
 /***/ })
 /******/ ]);
+});
 //# sourceMappingURL=iframe_bridge.js.map
